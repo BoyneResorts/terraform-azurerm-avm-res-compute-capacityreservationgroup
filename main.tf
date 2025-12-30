@@ -52,3 +52,16 @@ resource "azapi_resource" "capacity_reservation_group" {
   schema_validation_enabled = var.schema_validation_enabled
   tags                      = var.tags
 }
+
+# Create capacity reservations within the group
+module "capacity_reservations" {
+  source   = "./modules/capacity_reservation"
+  for_each = var.capacity_reservations
+
+  capacity_reservation_group_id = azapi_resource.capacity_reservation_group.id
+  capacity_reservation_name     = each.value.name
+  location                      = coalesce(each.value.location, var.location)
+  sku                           = each.value.sku
+  tags                          = coalesce(each.value.tags, var.tags)
+  zones                         = coalesce(each.value.zones, var.zones)
+}

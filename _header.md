@@ -5,12 +5,13 @@ This Terraform module provisions an Azure Capacity Reservation Group, which allo
 ## Features
 
 - Creates Azure Capacity Reservation Groups with configurable availability zones
+- Supports creating multiple capacity reservations within the group using the `capacity_reservations` variable
 - Supports sharing capacity reservations across subscriptions
 - Includes AVM-compliant interfaces for role assignments, locks, and tags
-- Provides a submodule for creating individual capacity reservations within the group
+- Provides a submodule for advanced scenarios requiring direct capacity reservation management
 
 ## Usage
 
-This module creates the Capacity Reservation Group. To add individual capacity reservations to the group, use the `capacity_reservation` submodule (see examples).
+This module creates the Capacity Reservation Group and can optionally create capacity reservations within it using the `capacity_reservations` variable (recommended). For advanced scenarios, you can also use the `capacity_reservation` submodule directly.
 
 For detailed usage examples, please refer to the [examples](./examples) directory.

@@ -7,13 +7,14 @@ This Terraform module provisions an Azure Capacity Reservation Group, which allo
 ## Features
 
 - Creates Azure Capacity Reservation Groups with configurable availability zones
+- Supports creating multiple capacity reservations within the group using the `capacity_reservations` variable
 - Supports sharing capacity reservations across subscriptions
 - Includes AVM-compliant interfaces for role assignments, locks, and tags
-- Provides a submodule for creating individual capacity reservations within the group
+- Provides a submodule for advanced scenarios requiring direct capacity reservation management
 
 ## Usage
 
-This module creates the Capacity Reservation Group. To add individual capacity reservations to the group, use the `capacity_reservation` submodule (see examples).
+This module creates the Capacity Reservation Group and can optionally create capacity reservations within it using the `capacity_reservations` variable (recommended). For advanced scenarios, you can also use the `capacity_reservation` submodule directly.
 
 For detailed usage examples, please refer to the [examples](./examples) directory.
 
@@ -70,6 +71,37 @@ Type: `string`
 ## Optional Inputs
 
 The following input variables are optional (have default values):
+
+### <a name="input_capacity_reservations"></a> [capacity\_reservations](#input\_capacity\_reservations)
+
+Description: A map of capacity reservations to create within this capacity reservation group. The map key is deliberately arbitrary to avoid issues where map keys may be unknown at plan time.
+
+- `name` - (Required) The name of the capacity reservation.
+- `location` - (Optional) The location where the capacity reservation will be created. Defaults to the location of the capacity reservation group.
+- `sku` - (Required) The SKU information for the capacity reservation.
+  - `capacity` - (Required) The number of instances to reserve.
+  - `name` - (Required) The name of the SKU (e.g., "Standard\_B2ms").
+  - `tier` - (Optional) The tier of the SKU.
+- `tags` - (Optional) A map of tags to assign to the capacity reservation. Defaults to the tags of the capacity reservation group.
+- `zones` - (Optional) The availability zones for the capacity reservation. Defaults to the zones of the capacity reservation group.
+
+Type:
+
+```hcl
+map(object({
+    name     = string
+    location = optional(string)
+    sku = object({
+      capacity = number
+      name     = string
+      tier     = optional(string, "")
+    })
+    tags  = optional(map(string))
+    zones = optional(list(string))
+  }))
+```
+
+Default: `{}`
 
 ### <a name="input_customer_managed_key"></a> [customer\_managed\_key](#input\_customer\_managed\_key)
 
@@ -336,9 +368,19 @@ The following outputs are exported:
 
 Description: The ID of the capacity reservation group
 
+### <a name="output_capacity_reservations"></a> [capacity\_reservations](#output\_capacity\_reservations)
+
+Description: A map of capacity reservations created within the group
+
 ## Modules
 
-No modules.
+The following Modules are called:
+
+### <a name="module_capacity_reservations"></a> [capacity\_reservations](#module\_capacity\_reservations)
+
+Source: ./modules/capacity_reservation
+
+Version:
 
 <!-- markdownlint-disable-next-line MD041 -->
 ## Data Collection
