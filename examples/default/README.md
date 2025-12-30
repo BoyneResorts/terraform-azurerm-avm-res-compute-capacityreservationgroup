@@ -41,8 +41,6 @@ module "capacity_reservation_group" {
   capacity_reservation_group_name = local.capacity_reservation_group_name
   location                        = azurerm_resource_group.this.location
   resource_group_id               = azurerm_resource_group.this.id
-  tags                            = local.tags
-
   # Create capacity reservations within the group
   capacity_reservations = {
     reservation1 = {
@@ -51,6 +49,7 @@ module "capacity_reservation_group" {
       zones = local.zones
     }
   }
+  tags = local.tags
 }
 ```
 
