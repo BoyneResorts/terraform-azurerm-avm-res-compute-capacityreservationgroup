@@ -47,8 +47,8 @@ module "capacity_reservation_group" {
   # Create capacity reservations within the group
   capacity_reservations = {
     reservation1 = {
-      name = local.capacity_reservation_name
-      sku  = local.sku
+      name  = local.capacity_reservation_name
+      sku   = local.sku
       zones = local.zones
     }
   }
