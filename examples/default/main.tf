@@ -24,7 +24,8 @@ resource "azurerm_resource_group" "this" {
   name     = module.naming.resource_group.name_unique
 }
 
-# This is the module call for capacity reservation group
+# Create the Capacity Reservation Group with Capacity Reservations
+# This single module call creates both the group and the reservations within it
 module "capacity_reservation_group" {
   source = "../../"
 
@@ -32,18 +33,13 @@ module "capacity_reservation_group" {
   location                        = azurerm_resource_group.this.location
   resource_group_id               = azurerm_resource_group.this.id
   tags                            = local.tags
-}
 
-
-
-# This is the module call for capacity reservation
-module "capacity_reservation" {
-  source = "../../modules/capacity_reservation"
-
-  capacity_reservation_group_id = module.capacity_reservation_group.capacity_reservation_group_id
-  capacity_reservation_name     = local.capacity_reservation_name
-  location                      = azurerm_resource_group.this.location
-  sku                           = local.sku
-  tags                          = local.tags
-  zones                         = local.zones
+  # Create capacity reservations within the group
+  capacity_reservations = {
+    reservation1 = {
+      name  = local.capacity_reservation_name
+      sku   = local.sku
+      zones = local.zones
+    }
+  }
 }

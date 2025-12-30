@@ -45,6 +45,7 @@ avm.tflint_example.merged.hcl
 avm.tflint_module.merged.hcl
 *tfplan*
 *.md.tmp
+*.mptfbackup
 # MacOS
 .DS_Store
 
