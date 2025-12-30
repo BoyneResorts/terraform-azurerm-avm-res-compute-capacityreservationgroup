@@ -300,6 +300,10 @@ Description: The ID of the capacity reservation group
 
 Description: A map of capacity reservations created within the group
 
+### <a name="output_resource_id"></a> [resource\_id](#output\_resource\_id)
+
+Description: The resource ID of the capacity reservation group
+
 ## Modules
 
 The following Modules are called:

@@ -32,7 +32,7 @@ variable "sku" {
 
 variable "tags" {
   type        = map(string)
-  default     = {}
+  default     = null
   description = "A map of tags to assign to the capacity reservation."
 }
 
