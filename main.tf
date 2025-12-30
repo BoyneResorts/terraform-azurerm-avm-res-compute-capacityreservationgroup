@@ -62,6 +62,6 @@ module "capacity_reservations" {
   capacity_reservation_name     = each.value.name
   location                      = coalesce(each.value.location, var.location)
   sku                           = each.value.sku
-  tags                          = coalesce(each.value.tags, var.tags)
+  tags                          = coalesce(each.value.tags, var.tags, {})
   zones                         = coalesce(each.value.zones, var.zones)
 }
