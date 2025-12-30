@@ -264,3 +264,32 @@ variable "zones" {
   default     = ["1", "2", "3"]
   description = "A list of availability zones in which the capacity reservation group should be created."
 }
+
+# Capacity reservations to create within the group
+variable "capacity_reservations" {
+  type = map(object({
+    name     = string
+    location = optional(string)
+    sku = object({
+      capacity = number
+      name     = string
+      tier     = optional(string, "")
+    })
+    tags  = optional(map(string))
+    zones = optional(list(string))
+  }))
+  default     = {}
+  description = <<DESCRIPTION
+A map of capacity reservations to create within this capacity reservation group. The map key is deliberately arbitrary to avoid issues where map keys may be unknown at plan time.
+
+- `name` - (Required) The name of the capacity reservation.
+- `location` - (Optional) The location where the capacity reservation will be created. Defaults to the location of the capacity reservation group.
+- `sku` - (Required) The SKU information for the capacity reservation.
+  - `capacity` - (Required) The number of instances to reserve.
+  - `name` - (Required) The name of the SKU (e.g., "Standard_B2ms").
+  - `tier` - (Optional) The tier of the SKU.
+- `tags` - (Optional) A map of tags to assign to the capacity reservation. Defaults to the tags of the capacity reservation group.
+- `zones` - (Optional) The availability zones for the capacity reservation. Defaults to the zones of the capacity reservation group.
+DESCRIPTION
+  nullable    = false
+}
