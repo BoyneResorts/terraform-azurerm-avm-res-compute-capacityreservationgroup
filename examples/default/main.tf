@@ -24,7 +24,9 @@ resource "azurerm_resource_group" "this" {
   name     = module.naming.resource_group.name_unique
 }
 
-# This is the module call for capacity reservation group
+# Step 1: Create the Capacity Reservation Group
+# This is the primary module that creates the capacity reservation group.
+# The group acts as a container for one or more capacity reservations.
 module "capacity_reservation_group" {
   source = "../../"
 
@@ -35,9 +37,10 @@ module "capacity_reservation_group" {
   tags                            = local.tags
 }
 
-
-
-# This is the module call for capacity reservation
+# Step 2: Add Capacity Reservations to the Group
+# This uses the capacity_reservation submodule to create individual reservations
+# within the group. You can create multiple capacity reservations with different
+# SKUs and configurations by adding more module blocks.
 module "capacity_reservation" {
   source = "../../modules/capacity_reservation"
 
