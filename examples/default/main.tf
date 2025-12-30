@@ -31,7 +31,6 @@ module "capacity_reservation_group" {
   capacity_reservation_group_name = local.capacity_reservation_group_name
   location                        = azurerm_resource_group.this.location
   resource_group_id               = azurerm_resource_group.this.id
-  subscription_id                 = local.subscription_id
   tags                            = local.tags
 }
 

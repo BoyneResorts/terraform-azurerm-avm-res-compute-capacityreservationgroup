@@ -251,12 +251,6 @@ DESCRIPTION
 }
 
 # subscription ID for azurerm provider
-variable "subscription_id" {
-  type        = string
-  default     = ""
-  description = "The subscription ID to use for the azurerm provider."
-}
-
 # tflint-ignore: terraform_unused_declarations
 variable "tags" {
   type        = map(string)

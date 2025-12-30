@@ -283,14 +283,6 @@ object({
 
 Default: `null`
 
-### <a name="input_subscription_id"></a> [subscription\_id](#input\_subscription\_id)
-
-Description: The subscription ID to use for the azurerm provider.
-
-Type: `string`
-
-Default: `""`
-
 ### <a name="input_tags"></a> [tags](#input\_tags)
 
 Description: (Optional) Tags of the resource.
